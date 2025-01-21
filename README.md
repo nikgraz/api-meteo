@@ -118,6 +118,90 @@ function getWeatherData() {
         });
 }
 
+let latitude = 45.1623; // Coordinate di default (Givoletto)
+let longitude = 7.4964; // Coordinate di default (Givoletto)
+let locationName = "Givoletto"; // Nome di default della città
+
+// Funzione per cercare una città
+function searchLocation() {
+    const locationInput = document.getElementById("location-search").value;
+
+    if (locationInput.trim() !== "") {
+        // Utilizzo dell'API di Open-Meteo per la geocodifica
+        const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(locationInput)}&count=1&language=it`;
+
+        fetch(geocodeUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                    const result = data.results[0];
+                    latitude = result.latitude;
+                    longitude = result.longitude;
+                    locationName = result.name;
+
+                    document.getElementById("location-name").innerHTML = `Posizione: <strong>${locationName}</strong>`;
+                    getWeatherData(); // Richiama la funzione per aggiornare i dati meteo
+                } else {
+                    alert("Località non trovata. Per favore, prova un altro nome.");
+                }
+            })
+            .catch(error => {
+                console.error("Errore nel recupero dei dati di geocodifica:", error);
+                alert("Errore nel recupero dei dati di geocodifica.");
+            });
+    } else {
+        alert("Per favore inserisci un nome di località.");
+    }
+}
+
+// Funzione per ottenere i dati meteo per la posizione attuale
+function getWeatherData() {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min,precipitation_sum&timezone=Europe/Rome`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const weatherTableBody = document.getElementById('weather-table-body');
+            weatherTableBody.innerHTML = '';  // Pulisce la tabella prima di popolarla
+
+            // Ottieni i giorni della settimana
+            const days = data.daily.time;
+            const maxTemperatures = data.daily.temperature_2m_max;
+            const minTemperatures = data.daily.temperature_2m_min;
+            const maxHumidity = data.daily.relative_humidity_2m_max;
+            const minHumidity = data.daily.relative_humidity_2m_min;
+            const precipitation = data.daily.precipitation_sum;
+
+            // Aggiungi una riga per ogni giorno
+            days.forEach((day, index) => {
+                const date = new Date(day);
+                const dayName = date.toLocaleDateString('it-IT', { weekday: 'long' });
+
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${dayName}</td>
+                    <td>${maxTemperatures[index]}°C / ${minTemperatures[index]}°C</td>
+                    <td>${maxHumidity[index]}% / ${minHumidity[index]}%</td>
+                    <td>${precipitation[index]} mm</td>
+                `;
+                weatherTableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error("Errore nel recupero dei dati meteo:", error);
+        });
+}
+
+// Aggiungi l'evento per il tasto "Invio" sulla barra di ricerca
+document.getElementById("location-search").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Previene l'eventuale invio del modulo
+        searchLocation(); // Esegui la ricerca quando viene premuto "Invio"
+    }
+});
+
+
 style.css
 body {
     font-family: Arial, sans-serif;
