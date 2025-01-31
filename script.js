@@ -73,10 +73,6 @@ function getWeatherData() {
         });
 }
 
-let latitude = 45.1623; // Coordinate di default (Givoletto)
-let longitude = 7.4964; // Coordinate di default (Givoletto)
-let locationName = "Givoletto"; // Nome di default della città
-
 // Funzione per cercare una città
 function searchLocation() {
     const locationInput = document.getElementById("location-search").value;
@@ -200,55 +196,51 @@ function getWeatherDescription(code) {
     switch (code) {
         case 0:
             description = "Soleggiato";
-            icon = "https://open-meteo.com/assets/icons/sun.svg";
+            icon = "https://png.pngtree.com/png-clipart/20210910/ourmid/pngtree-the-sun-png-png-image_3921225.png";
             break;
         case 1:
         case 2:
             description = "Poco nuvoloso";
-            icon = "https://open-meteo.com/assets/icons/partly-cloudy-day.svg";
+            icon = "https://e1.pngegg.com/pngimages/469/157/png-clipart-my-phone-12-partially-cloudy-illustration-thumbnail.png";
             break;
         case 3:
             description = "Nuvoloso";
-            icon = "https://open-meteo.com/assets/icons/cloudy.svg";
+            icon = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRonOgwweU4YHqF3HXDXz0MB_u90_TEQ3eBUA&s";
             break;
         case 45:
         case 48:
             description = "Nebbia";
-            icon = "https://open-meteo.com/assets/icons/fog.svg";
+            icon = "https://static.vecteezy.com/system/resources/thumbnails/020/918/090/small_2x/fog-motion-blured-isolated-3d-render-png.png";
             break;
         case 51:
         case 53:
         case 55:
             description = "Pioggia leggera";
-            icon = "https://open-meteo.com/assets/icons/rain.svg";
+            icon = "https://img.freepik.com/vettori-gratuito/pioggia-di-vettore-isolata-su-sfondo-trasparente_433751-176.jpg";
             break;
         case 61:
         case 63:
         case 65:
             description = "Pioggia moderata";
-            icon = "https://open-meteo.com/assets/icons/rain.svg";
+            icon = "https://img.lovepik.com/element/45004/1819.png_860.png";
             break;
         case 71:
         case 73:
         case 75:
             description = "Nevicate";
-            icon = "https://open-meteo.com/assets/icons/snow.svg";
+            icon = "https://img.freepik.com/vettori-gratuito/sovrapposizione-bianca-di-neve-su-uno-sfondo-trasparente-e-scuro-illustrazione-di-particelle-di-ghiaccio-vettoriale_90220-3076.jpg";
             break;
         case 80:
         case 81:
         case 82:
             description = "Pioggia forte";
-            icon = "https://open-meteo.com/assets/icons/rain-heavy.svg";
+            icon = "https://e1.pngegg.com/pngimages/642/644/png-clipart-nuage-de-pluie-dessin-animation-orage-tenor-art-gif-bleu-ciel-thumbnail.png";
             break;
         case 95:
         case 96:
         case 99:
             description = "Tempesta";
-            icon = "https://open-meteo.com/assets/icons/thunderstorm.svg";
-            break;
-        default:
-            description = "Stato sconosciuto";
-            icon = "https://open-meteo.com/assets/icons/cloud.svg";
+            icon = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlFU5r74rt8bftob9KYN9yEreYkPQkuOwzMQ&s";
             break;
     }
 
